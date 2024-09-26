@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.active{
+  font-weight: 700;
+  color: white;
+}
+.hide-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.transition-opacity {
+  transition: opacity 0.5s ease-in-out;
+}
