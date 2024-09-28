@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from './UserContext'; 
 import Banner from './Banner';
 
 // eslint-disable-next-line react/prop-types
-const Header = ({ banner, activePage }) => {
+const Header = ({ banner, activePage , SearchIcon }) => {
+  const navigate = useNavigate()
   const [scrolled, setScrolled] = useState(false);
   const { user, handleSignIn, handleSignOut } = useUser();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -55,10 +56,10 @@ const Header = ({ banner, activePage }) => {
           <button onClick={() => setMenuOpen(!menuOpen)} className="ms-4 block text-gray-100 hover:text-gray-400 text-lg mx-2 font-bold sm:hidden">Menu</button>
         </div>
         <div className="right flex items-center">
-          <FaSearch className="text-white me-4 text-2xl transition-all duration-300 cursor-pointer" />
+          {SearchIcon && <FaSearch onClick={()=>navigate('/search')} className="text-white me-4 text-2xl transition-all duration-300 cursor-pointer" />}
           {user ? (
             <img
-              src={user.photoURL ? user.photoURL : ''}
+              src={user.photoURL ? user.photoURL : 'https://www.tenforums.com/attachments/user-accounts-family-safety/322690d1615743307-user-account-image-log-user.png'}
               alt="Profile"
               className="w-10 h-10 rounded-full cursor-pointer"
               onClick={handleSignOut}

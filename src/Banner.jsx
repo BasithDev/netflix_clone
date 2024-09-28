@@ -3,17 +3,23 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FaPlay } from "react-icons/fa";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { AnimatePresence } from "framer-motion";
+import VideoPopUp from './VideoPopUp';
 
 const Banner = () => {
   const [banner, setBanner] = useState('');
   const [randomMovie, setRandomMovie] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const API_KEY = 'd16900d51292cb37d2a7f02963fa6ee1'; 
+  const [clip, setClip] = useState([]);
+  const [popVideo, setPopVideo] = useState(false);
+  const API_KEY = import.meta.env.VITE_TMDB_APIkEY;
 
   const getBanner = async () => {
     try {
-      const { data } = await axios.get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`);
+      const { data } = await axios.get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&append_to_response=videos`);
       const random_movie = data.results[Math.floor(Math.random() * data.results.length)];
+      const clipData = await axios.get(`https://api.themoviedb.org/3/movie/${random_movie.id}/videos?api_key=${API_KEY}`);
+      setClip(clipData.data.results.find((item) => item.type === 'Teaser' || item.type === 'Trailer'));
       setBanner(`https://image.tmdb.org/t/p/original${random_movie.backdrop_path}`);
       setRandomMovie(random_movie);
     } catch (error) {
@@ -23,7 +29,9 @@ const Banner = () => {
 
   useEffect(() => {
     getBanner();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const handleImageLoad = () => {
     setImageLoaded(true);
   };
@@ -55,7 +63,9 @@ const Banner = () => {
             </p>
             <p className="me-5">{randomMovie.overview}</p>
             <div className="flex">
-              <button className="hover:bg-blue-950 hover:text-white flex rounded items-center px-3 py-1 my-3 me-2 bg-white text-black text-xl font-medium transition-all duration-300">
+              <button
+                onClick={() => setPopVideo(true)}
+                className="hover:bg-blue-950 hover:text-white flex rounded items-center px-3 py-1 my-3 me-2 bg-white text-black text-xl font-medium transition-all duration-300">
                 <FaPlay className="me-1" /> Play
               </button>
               <button className="hover:bg-blue-950 hover:bg-opacity-60 bg-transparent border-2 border-gray-600 px-3 py-1 my-3 me-2 text-xl font-medium transition-all duration-300">
@@ -66,8 +76,13 @@ const Banner = () => {
             </div>
           </div>
 
+          {/* Placeholder background while loading */}
+          {!imageLoaded && (
+            <div className="absolute inset-0 bg-black filter object-cover h-[600px] lg:h-auto" />
+          )}
+
           <img
-            className={`w-full transition-all duration-500 ease-in bg-black filter object-cover h-[600px] lg:h-auto ${imageLoaded ? 'brightness-50' : 'brightness-0'}`} // Apply smooth fade-in effect
+            className={`w-full transition-all duration-500 ease-in bg-black filter object-cover h-[600px] lg:h-auto ${imageLoaded ? 'brightness-50' : 'brightness-0'}`}
             loading="lazy"
             src={banner ? banner : 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg'}
             alt="movie-banner"
@@ -75,6 +90,9 @@ const Banner = () => {
           />
         </div>
       )}
+      <AnimatePresence>
+        {popVideo && <VideoPopUp clip={clip} content={randomMovie} contype={'movie'} closePopUp={() => setPopVideo(false)} />}
+      </AnimatePresence>
     </>
   );
 };

@@ -56,7 +56,7 @@ const Category = ({ title, apiUrl }) => {
                   key={index}
                   src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
                   alt="posters"
-                  onClick={()=>navigate(`/movie/${item.id}`)}
+                  onClick={()=>navigate(`/${title==='Top Rated TV Shows'?'tv':'movie'}/${item.id}`)}
                 />
               ))
             ) : (

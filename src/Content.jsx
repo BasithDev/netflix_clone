@@ -1,8 +1,8 @@
 import Categaory from './Categaory'
 
 const Content = () => {
-  const API_KEY = 'd16900d51292cb37d2a7f02963fa6ee1';
-  const trendingURL = `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`;
+  const API_KEY = import.meta.env.VITE_TMDB_APIkEY;
+  const trendingURL = `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`;
   const topRatedMoviesURL = `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`
   const topRatedShowsURL = `https://api.themoviedb.org/3/tv/top_rated?api_key=${API_KEY}`
   const actionThrillerURL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=28,53`

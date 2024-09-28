@@ -6,6 +6,7 @@ import Header from "./Header";
 import Loading from "./Loading";
 import MovieDetails from './MovieDetails';
 import { UserProvider } from './UserContext';
+import Search from "./Search";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -30,14 +31,20 @@ function App() {
           <Routes>
             <Route path="/" element={
               <>
-                <Header banner={true} activePage={'home'} />
+                <Header banner={true} activePage={'home'} SearchIcon={true} />
                 <Content />
                 <Footer />
               </>
             } />
-            <Route path="/movie/:id" element={
+            <Route path="/search" element={
               <>
-                <Header banner={false} />
+                <Header banner={false} SearchIcon={false} />
+                <Search/>
+              </>
+            } />
+            <Route path="/:contype/:id" element={
+              <>
+                <Header banner={false} SearchIcon={true}/>
                 <MovieDetails />
               </>
             } />
