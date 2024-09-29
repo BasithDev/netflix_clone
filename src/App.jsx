@@ -7,6 +7,7 @@ import Loading from "./Loading";
 import MovieDetails from './MovieDetails';
 import { UserProvider } from './UserContext';
 import Search from "./Search";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,16 +38,20 @@ function App() {
               </>
             } />
             <Route path="/search" element={
-              <>
+             <ProtectedRoute>
+               <>
                 <Header banner={false} SearchIcon={false} />
                 <Search/>
               </>
+             </ProtectedRoute>
             } />
             <Route path="/:contype/:id" element={
-              <>
+              <ProtectedRoute>
+                <>
                 <Header banner={false} SearchIcon={true}/>
                 <MovieDetails />
               </>
+              </ProtectedRoute>
             } />
           </Routes>
         </Router>

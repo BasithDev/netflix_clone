@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 
 const VideoPopUp = ({ clip,content,contype,closePopUp }) => {
   const popRef = useRef(null);
-  console.log(clip)
 
   useEffect(() => {
     const handleClickOutside = (event) => {

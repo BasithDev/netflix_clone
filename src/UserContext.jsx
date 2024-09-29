@@ -33,13 +33,8 @@ export const UserProvider = ({ children }) => {
 
   const handleSignOut = async () => {
     try {
-      let check = confirm('Do you want to logout ?')
-      if (check) {
       await signOut(auth);
       setUser(null);
-      }else{
-        return null;
-      }
     } catch (error) {
       console.error("Error signing out:", error);
     }

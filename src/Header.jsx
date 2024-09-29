@@ -3,13 +3,18 @@ import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from './UserContext'; 
 import Banner from './Banner';
+import SignInPopUp from "./SignInPopUp";
+import SignOutPopUp from "./SignOutPopUp";
+import { AnimatePresence } from "framer-motion";
 
 // eslint-disable-next-line react/prop-types
 const Header = ({ banner, activePage , SearchIcon }) => {
   const navigate = useNavigate()
   const [scrolled, setScrolled] = useState(false);
-  const { user, handleSignIn, handleSignOut } = useUser();
+  const { user, handleSignOut } = useUser();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  const [isSignOutPopUpOpen, setIsSignOutPopUpOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -39,9 +44,25 @@ const Header = ({ banner, activePage , SearchIcon }) => {
     };
   }, []);
 
+  const handleSignInClick = ()=>{
+    if (user) {
+      handleSignOut()
+    }else{
+      setIsPopUpOpen(true)
+    }
+  }
+
+  const handleSignOutClick = () => {
+    setIsSignOutPopUpOpen(true); // Open the sign-out popup
+  };
+  
+  const closePopUp = ()=>{
+    setIsPopUpOpen(false)
+  }
+
   return (
     <>
-      <nav className={`w-full fixed top-0 left-0 right-0 z-30 py-2 px-5 font-sans flex justify-between transition-all duration-300 ease-in-out ${scrolled ? "bg-black" : "bg-transparent"}`}>
+      <nav className={`w-full fixed top-0 left-0 right-0 z-30 pt-4 pb-3 px-3 font-sans flex justify-between transition-all duration-300 ease-in-out ${scrolled ? "bg-black" : "bg-transparent"}`}>
         <div className="left flex items-center">
           <Link to={'/'}>
             <img className="w-28 ms-14 hidden sm:block" src="https://netflx-web.vercel.app/netflix-logo.svg" alt="Netflix Logo" />
@@ -62,11 +83,11 @@ const Header = ({ banner, activePage , SearchIcon }) => {
               src={user.photoURL ? user.photoURL : 'https://www.tenforums.com/attachments/user-accounts-family-safety/322690d1615743307-user-account-image-log-user.png'}
               alt="Profile"
               className="w-10 h-10 rounded-full cursor-pointer"
-              onClick={handleSignOut}
+              onClick={handleSignOutClick}
             />
           ) : (
             <button
-              onClick={handleSignIn}
+              onClick={handleSignInClick}
               className="bg-red-600 text-white font-bold px-3 py-2 me-2 rounded hover:bg-red-700 transition-all duration-300"
             >
               Sign In
@@ -84,6 +105,20 @@ const Header = ({ banner, activePage , SearchIcon }) => {
           <Link to="/new" className="block font-medium py-2 pb-3">New & Popular</Link>
         </div>
       )}
+
+      <AnimatePresence>
+        {isPopUpOpen && (
+          <SignInPopUp closePopUp={closePopUp}/>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {isSignOutPopUpOpen && (
+          <SignOutPopUp 
+            closePopUp={() => setIsSignOutPopUpOpen(false)} 
+            handleSignOut={handleSignOut}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };
