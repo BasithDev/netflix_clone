@@ -76,7 +76,7 @@ const MovieDetails = () => {
       <p className='font-semibold text-lg'>
         Rating:
         <span className={movie.vote_average < 4 ? 'text-red-600' : movie.vote_average >= 4 && movie.vote_average < 8 ? 'text-orange-500' : 'text-green-500'}>
-          {movie.vote_average ? ` ${movie.vote_average}` : ' No Rating Yet'}
+          {movie.vote_average ? ` ${(movie.vote_average).toFixed(1)}` : ' No Rating Yet'}
         </span>
         {` - ${getVoteCount()} votes`}
       </p>
