@@ -33,6 +33,24 @@ const MovieDetails = () => {
     fetchMovieDetails();
   }, [id,API_KEY,contype]);
 
+  const getRuntime = ()=>{
+    if (contype==='movie' && movie?.runtime) {
+      const hours = Math.floor(movie.runtime / 60)
+      const min = movie.runtime % 60
+      return hours > 0 ? `${hours}h ${min}m` : `${min}m`
+    }else if (contype === 'tv' && movie?.episode_run_time?.length > 0) {
+      const avgRuntime = Math.round(movie.episode_run_time.reduce((a, b) => a + b, 0) / movie.episode_run_time.length);
+      return avgRuntime > 60 ? `${Math.floor(avgRuntime / 60)}h ${avgRuntime % 60}m EP` : `${avgRuntime} M EP`;
+    } else {
+      return 'Runtime not available';
+    }
+  }
+
+  const getVoteCount = ()=>{
+    let count = movie?.vote_count
+    return count>1000 ? `${(count/1000).toFixed(1)}K`:`${count}`
+  }
+
   if (!movie) return (
     <div className='bg-black h-screen text-white flex justify-center items-center'>
       <div className={"item"}>
@@ -54,11 +72,13 @@ const MovieDetails = () => {
       <h1 className='text-5xl font-bold mt-3 md:mt-0 mb-4'>{contype === 'tv' ? movie.name : movie.title}</h1>
       <p className='text-[16px] lg:w-[700px] my-4 text-gray-300'>{movie.overview}</p>
       <p className='text-xl font-semibold my-2 '>Release Date: <span className="font-normal">{movie.release_date}</span></p>
+      <p className='text-xl font-semibold my-2 '>Runtime: <span className="font-normal">{getRuntime()}</span></p>
       <p className='font-semibold text-lg'>
         Rating:
         <span className={movie.vote_average < 4 ? 'text-red-600' : movie.vote_average >= 4 && movie.vote_average < 8 ? 'text-orange-500' : 'text-green-500'}>
-          {movie.vote_average ? ' '+movie.vote_average : ' No Rating Yet'}
+          {movie.vote_average ? ` ${movie.vote_average}` : ' No Rating Yet'}
         </span>
+        {` - ${getVoteCount()} votes`}
       </p>
       <button
         onClick={() => setPopVideo(true)}

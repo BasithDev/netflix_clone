@@ -65,8 +65,8 @@ const Header = ({ banner, activePage , SearchIcon }) => {
       <nav className={`w-full fixed top-0 left-0 right-0 z-30 pt-4 pb-3 px-3 font-sans flex justify-between transition-all duration-300 ease-in-out ${scrolled ? "bg-black" : "bg-transparent"}`}>
         <div className="left flex items-center">
           <Link to={'/'}>
-            <img className="w-28 ms-14 hidden sm:block" src="https://netflx-web.vercel.app/netflix-logo.svg" alt="Netflix Logo" />
-            <img className='w-12 block sm:hidden' src="https://static.vecteezy.com/system/resources/previews/019/956/195/non_2x/netflix-transparent-netflix-free-free-png.png" alt="Netflix Logo" />
+            <img loading="lazy" className="w-28 ms-14 hidden sm:block" src="https://netflx-web.vercel.app/netflix-logo.svg" alt="Netflix Logo" />
+            <img loading="lazy" className='w-12 block sm:hidden' src="https://static.vecteezy.com/system/resources/previews/019/956/195/non_2x/netflix-transparent-netflix-free-free-png.png" alt="Netflix Logo" />
           </Link>
           <Link to="/" className={`hidden sm:block text-gray-300 hover:text-gray-400 text-sm ms-4 mx-2 font-bold ${activePage === 'home' ? 'active' : ''}`}>
             Home
@@ -80,10 +80,14 @@ const Header = ({ banner, activePage , SearchIcon }) => {
           {SearchIcon && <FaSearch onClick={()=>navigate('/search')} className="text-white me-4 text-2xl transition-all duration-300 cursor-pointer" />}
           {user ? (
             <img
+            loading="lazy"
               src={user.photoURL ? user.photoURL : 'https://www.tenforums.com/attachments/user-accounts-family-safety/322690d1615743307-user-account-image-log-user.png'}
               alt="Profile"
               className="w-10 h-10 rounded-full cursor-pointer"
               onClick={handleSignOutClick}
+              onError={(e) => {
+                e.target.src = 'https://www.tenforums.com/attachments/user-accounts-family-safety/322690d1615743307-user-account-image-log-user.png'; // Fallback image
+              }}
             />
           ) : (
             <button
