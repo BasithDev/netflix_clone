@@ -31,7 +31,7 @@ const MovieDetails = () => {
     };
     console.log(cast)
     fetchMovieDetails();
-  }, [id,API_KEY,contype]);
+  }, [id,API_KEY,contype,cast]);
 
   const getRuntime = ()=>{
     if (contype==='movie' && movie?.runtime) {
