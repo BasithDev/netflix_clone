@@ -71,7 +71,7 @@ const MovieDetails = () => {
     <div className='md:ms-2 lg:ms-3 md:mt-5 lg:mt-0'>
       <h1 className='text-5xl font-bold mt-3 md:mt-0 mb-4'>{contype === 'tv' ? movie.name : movie.title}</h1>
       <p className='text-[16px] lg:w-[700px] my-4 text-gray-300'>{movie.overview}</p>
-      <p className='text-xl font-semibold my-2 '>Release Date: <span className="font-normal">{movie.release_date}</span></p>
+      <p className='text-xl font-semibold my-2 '>Release Date: <span className="font-normal">{movie.release_date || 'No Data Found'}</span></p>
       <p className='text-xl font-semibold my-2 '>Runtime: <span className="font-normal">{getRuntime()}</span></p>
       <p className='font-semibold text-lg'>
         Rating:
