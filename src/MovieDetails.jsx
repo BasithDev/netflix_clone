@@ -29,7 +29,6 @@ const MovieDetails = () => {
         console.log("Error fetching movie details:", error);
       }
     };
-    console.log(cast)
     fetchMovieDetails();
   }, [id,API_KEY,contype,cast]);
 

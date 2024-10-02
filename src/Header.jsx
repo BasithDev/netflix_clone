@@ -71,9 +71,9 @@ const Header = ({ banner, activePage , SearchIcon }) => {
           <Link to="/" className={`hidden sm:block text-gray-300 hover:text-gray-400 text-sm ms-4 mx-2 font-bold ${activePage === 'home' ? 'active' : ''}`}>
             Home
           </Link>
-          <Link to="/tvshows" className="hidden sm:block text-gray-300 hover:text-gray-400 text-sm mx-2 font-bold">TV Shows</Link>
-          <Link to="/movies" className="hidden sm:block text-gray-300 hover:text-gray-400 text-sm mx-2 font-bold">Movies</Link>
-          <Link to="/new" className="hidden sm:block text-gray-300 hover:text-gray-400 text-sm mx-2 font-bold">New & Popular</Link>
+          <Link to="/tvshows" className={`hidden sm:block text-gray-300 hover:text-gray-400 text-sm mx-2 font-bold ${activePage === 'tv' ? 'active' : ''}`}>TV Shows</Link>
+          <Link to="/movies" className={`hidden sm:block text-gray-300 hover:text-gray-400 text-sm mx-2 font-bold ${activePage === 'movie' ? 'active' : ''}`}>Movies</Link>
+          <Link to="/new" className={`hidden sm:block text-gray-300 hover:text-gray-400 text-sm mx-2 font-bold ${activePage === 'new' ? 'active' : ''}`}>New & Popular</Link>
           <button onClick={() => setMenuOpen(!menuOpen)} className="ms-4 block text-gray-100 hover:text-gray-400 text-lg mx-2 font-bold sm:hidden">Menu</button>
         </div>
         <div className="right flex items-center">
